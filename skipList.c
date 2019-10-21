@@ -41,7 +41,7 @@ int console(struct skipList *skplt) {
 			printf ("wrong format of value");
 	}
 	else if(!strcmp("print", name))
-		printSkipList(skplt);
+		printSkipList(stdout, skplt);
 	else if(!strcmp("exit", name)) 
 		exit(0);
 	else

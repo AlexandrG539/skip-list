@@ -5,18 +5,18 @@
 #include "printSkipList.h"
 
 
-int printSkipList(struct skipList *skplt) {
+int printSkipList(FILE *output, struct skipList *skplt) {
 	struct node *nd = skplt->head;
 	if (skplt->head->next->key == INT_MAX)
 		return 1;
 	while (nd->lower != NULL) {
-		printList(nd, skplt->head);
+		printList(output, nd, skplt->head);
 		nd = nd->lower;
 	}
-	printList(nd, skplt->head);
+	printList(output, nd, skplt->head);
 }
 
-int printList(struct node *nd, struct node *head) {
+int printList(FILE *output, struct node *nd, struct node *head) {
 	struct node *prevNode = nd;
 	struct node *prevLower;
 	struct node *current = nd->next;
@@ -28,28 +28,28 @@ int printList(struct node *nd, struct node *head) {
 		currentLower = current;
 		while (currentLower->lower != NULL)
 			currentLower = currentLower->lower;
-		printSpaces(prevLower, currentLower);
-		printf("%d", current->key);
+		printSpaces(output, prevLower, currentLower);
+		fprintf(output, "%d", current->key);
 		if (current->next->key == INT_MAX)
 			break;
 		prevNode = prevNode->next;
 		current = current->next;
 	}
-	printf("\n");
+	fprintf(output, "\n");
 	return 0;
 }
 
-int printSpaces (struct node *prevNode, struct node *currentLower) {
+int printSpaces (FILE *output, struct node *prevNode, struct node *currentLower) {
 	struct node *current = prevNode;
 	while (current != currentLower) {
 		current = current->next;
-		printf(" ");
+		fprintf(output, " ");
 		if (current != currentLower) {
 			if (current->key < 0)
-				printf(" ");
+				fprintf(output, " ");
 			int dc = digitCount(abs(current->key));
 			while (dc != 0) {
-				printf(" ");
+				fprintf(output, " ");
 				dc--;
 			}
 		}
